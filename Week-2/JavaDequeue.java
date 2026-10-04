@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        Deque<Integer> deque = new ArrayDeque<>();
+        Map<Integer, Integer> frequency = new HashMap<>();
+
+        int maxUnique = 0;
+
+        for (int i = 0; i < n; i++) {
+            int num = sc.nextInt();
+
+            deque.addLast(num);
+            frequency.put(num, frequency.getOrDefault(num, 0) + 1);
+
+            // Window size maintain cheyyali
+            if (deque.size() > m) {
+                int removed = deque.removeFirst();
+
+                frequency.put(removed, frequency.get(removed) - 1);
+
+                if (frequency.get(removed) == 0) {
+                    frequency.remove(removed);
+                }
+            }
+
+            // Current window lo unique numbers
+            maxUnique = Math.max(maxUnique, frequency.size());
+        }
+
+        System.out.println(maxUnique);
+
+        sc.close();
+    }
+}
